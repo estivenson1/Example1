@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -53,7 +53,10 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="4.3.0.908675" />
+    <PackageReference Include="Plugin.BLE">
+      <Version>2.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Forms" Version="4.4.0.991265" />
     <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />
   </ItemGroup>
   <ItemGroup>
@@ -62,6 +65,26 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidAsset Include="Assets\Fonts\fa-regular-400.ttf" />
+    <AndroidAsset Include="Assets\Fonts\fa-solid-900.ttf" />
+    <AndroidAsset Include="Assets\Fonts\Lato-Black.ttf" />
+    <AndroidAsset Include="Assets\Fonts\Lato-BlackItalic.ttf" />
+    <AndroidAsset Include="Assets\Fonts\Lato-Bold.ttf" />
+    <AndroidAsset Include="Assets\Fonts\Lato-BoldItalic.ttf" />
+    <AndroidAsset Include="Assets\Fonts\Lato-Hairline.ttf" />
+    <AndroidAsset Include="Assets\Fonts\Lato-HairlineItalic.ttf" />
+    <AndroidAsset Include="Assets\Fonts\Lato-Heavy.ttf" />
+    <AndroidAsset Include="Assets\Fonts\Lato-HeavyItalic.ttf" />
+    <AndroidAsset Include="Assets\Fonts\Lato-Italic.ttf" />
+    <AndroidAsset Include="Assets\Fonts\Lato-Light.ttf" />
+    <AndroidAsset Include="Assets\Fonts\Lato-LightItalic.ttf" />
+    <AndroidAsset Include="Assets\Fonts\Lato-Medium.ttf" />
+    <AndroidAsset Include="Assets\Fonts\Lato-MediumItalic.ttf" />
+    <AndroidAsset Include="Assets\Fonts\Lato-Regular.ttf" />
+    <AndroidAsset Include="Assets\Fonts\Lato-Semibold.ttf" />
+    <AndroidAsset Include="Assets\Fonts\Lato-SemiboldItalic.ttf" />
+    <AndroidAsset Include="Assets\Fonts\Lato-Thin.ttf" />
+    <AndroidAsset Include="Assets\Fonts\Lato-ThinItalic.ttf" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
@@ -84,14 +107,15 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\drawable\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\AppExample\AppExample.csproj">
       <Project>{540D78D2-C18C-4982-895D-6BF1074DBBF9}</Project>
       <Name>AppExample</Name>
     </ProjectReference>
   </ItemGroup>
- <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\bluetooth.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

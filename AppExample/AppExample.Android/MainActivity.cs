@@ -6,6 +6,8 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Android;
+using Xamarin.Forms;
 
 namespace AppExample.Droid
 {
@@ -22,6 +24,12 @@ namespace AppExample.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
+
+            this.RequestPermissions(new[]
+{
+                Manifest.Permission.AccessCoarseLocation,
+                Manifest.Permission.BluetoothPrivileged
+            }, 0);
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
