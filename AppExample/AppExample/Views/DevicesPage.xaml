@@ -97,6 +97,8 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </RefreshView>
+            <Button Text="Imprimir" HorizontalOptions="EndAndExpand" VerticalOptions="EndAndExpand" 
+                    Command="{Binding ImprimirCommand}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
