@@ -16,6 +16,8 @@ namespace AppExample.ViewModels
 
         IAdapter _adapter;
         IBluetoothLE _ble;
+
+        public ICharacteristic Characteristic { get; private set; }
         #endregion
 
 
@@ -60,6 +62,8 @@ namespace AppExample.ViewModels
         public DevicesViewModel(Page page) : base(page)
         {
             Title = "Dispositivos ";
+
+            
 
             _ble = CrossBluetoothLE.Current;
             _adapter = CrossBluetoothLE.Current.Adapter;
@@ -163,8 +167,35 @@ namespace AppExample.ViewModels
             var device = deviceselected as IDevice;
             try
             {
-                await _adapter.ConnectToDeviceAsync(device);
-      
+                var cancellationToken = new System.Threading.CancellationTokenSource();
+                var parameters = new Plugin.BLE.Abstractions.ConnectParameters(forceBleTransport: true);
+                await _adapter.ConnectToDeviceAsync(device, parameters, cancellationToken.Token);
+
+  
+                var services = await device.GetServicesAsync();
+                var Service = await device.GetServiceAsync(device.Id);
+                foreach (var item in services)
+                {
+                    var cara= await item.GetCharacteristicsAsync();
+
+           
+
+
+
+                    //if (_uuid.ToString() == "e7810a71-73ae-499d-8c15-faa9aef0c3f2")
+                    //{
+
+                    string str = "";
+                }
+
+
+
+
+
+                //var characteristic = await service.GetCharacteristicAsync(Guid.Parse("d8de624e-140f-4a22-8594-e2216b84a5f2"));
+
+                //await _adapter.ConnectToDeviceAsync(device);
+
                 await page.DisplayAlert("Conectado", $"Status {device.State}", "Ok");
 
                 //var service = await device.GetServiceAsync(Guid.Parse("ffe0ecd2-3d16-4f8d-90de-e89e7fc396a5"));

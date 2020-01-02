@@ -54,9 +54,15 @@
                                         </OnPlatform>
                                     </controls:CircleImage.HeightRequest>
                                 </controls:CircleImage>
+                                
+                                
                                 <StackLayout
                                     VerticalOptions="Center"
                                     Spacing="0">
+                                    <!--<StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.DesconnectCommand, Source={x:Reference collectionDev}}"
+                                        CommandParameter="{Binding .}" />
+                                    </StackLayout.GestureRecognizers>-->
                                     <Label
                                         TextColor="#323742"
                                         Text="{Binding NativeDevice.Name}"
@@ -68,6 +74,8 @@
                                         FontFamily="{StaticResource Lato_Regular}"
                                         FontSize="Small" />
                                 </StackLayout>
+                                
+                                
                                 <StackLayout
                                     HorizontalOptions="EndAndExpand">
                                     <Button
@@ -80,6 +88,8 @@
                                         CommandParameter="{Binding .}" />
                                     <Label FontSize="Micro" HorizontalTextAlignment="Center" Text="Desconectar"/>
                                 </StackLayout>
+                                
+                                
                             </StackLayout>
 
 

@@ -26,21 +26,22 @@ namespace AppExample.Views
             BindingContext = VM;
         }
 
-        async void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs e)
+        void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
             try
             {
+                if (e.CurrentSelection.Any())
+                {
+                    var currentDevice = e.CurrentSelection.FirstOrDefault() as IDevice;
 
 
-                var currentDevice = e.CurrentSelection.FirstOrDefault() as IDevice;
+                    VM.DeviceSelectedCommand.Execute(currentDevice);
 
 
-                VM.DeviceSelectedCommand.Execute(currentDevice);
-
-
-                ((CollectionView)sender).SelectedItem = null;
-                //((CollectionView)sender).is
+                    //((CollectionView)sender).SelectedItem = null;
+                    //((CollectionView)sender).is
+                }
             }
             catch (Exception ex)
             {
