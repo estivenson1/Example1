@@ -20,8 +20,9 @@ namespace AppExample.ViewModels
         IAdapter _adapter;
         IBluetoothLE _ble;
 
-  
+
         public ICharacteristic _characteristic { get; private set; }
+        private readonly IDevice _connectedDevice;
         #endregion
 
 
@@ -60,18 +61,43 @@ namespace AppExample.ViewModels
             }
         }
 
+
+
         IDevice _device;
-        public IDevice DeviceSelec
+        public IDevice DeviceCurrent
         {
             get => _device;
             set
             {
                 _device = value;
-                OnPropertyChanged("DeviceSelec");
+                OnPropertyChanged("DeviceCurrent");
             }
         }
 
-        //private Guid _previousGuid;
+        IService _iService;
+        public IService ServiceCurrent
+        {
+            get => _iService;
+            set
+            {
+                _iService = value;
+                OnPropertyChanged("ServiceCurrent");
+            }
+        }
+
+
+        ICharacteristic _iCharacteristic;
+        public ICharacteristic CharacteristicCurrent
+        {
+            get => _iCharacteristic;
+            set
+            {
+                _iCharacteristic = value;
+                OnPropertyChanged("CharacteristicCurrent");
+            }
+        }
+
+        //private Guid _previousGuid;  
         //public Guid PreviousGuid
         //{
         //    get => _previousGuid;
@@ -93,7 +119,7 @@ namespace AppExample.ViewModels
 
             _ble = CrossBluetoothLE.Current;
             _adapter = CrossBluetoothLE.Current.Adapter;
-            SelectionMode = SelectionMode.None;          
+            SelectionMode = SelectionMode.None;
 
             Debug.WriteLine("Scan Devices...");
 
@@ -188,51 +214,51 @@ namespace AppExample.ViewModels
         }));
 
         private ICommand _deviceSelectedCommand;
-        public ICommand DeviceSelectedCommand => _deviceSelectedCommand ?? (_deviceSelectedCommand = new Command( async (deviceselected) =>
-        {
-            await _adapter.StopScanningForDevicesAsync();
+        public ICommand DeviceSelectedCommand => _deviceSelectedCommand ?? (_deviceSelectedCommand = new Command(async (deviceselected) =>
+       {
+           await _adapter.StopScanningForDevicesAsync();
 
 
-            Debug.WriteLine("Device Selected");
-            DeviceSelec = (deviceselected as IDevice);
+           Debug.WriteLine("Device Selected");
+           DeviceCurrent = (deviceselected as IDevice);
 
-        
+
 
             //MemberwiseClone()
 
             try
-            {
-                var cancellationToken = new System.Threading.CancellationTokenSource();
-                var parameters = new Plugin.BLE.Abstractions.ConnectParameters(forceBleTransport: true);
-                await _adapter.ConnectToDeviceAsync(DeviceSelec, parameters, cancellationToken.Token);
-               
+           {
+               var cancellationToken = new System.Threading.CancellationTokenSource();
+               var parameters = new Plugin.BLE.Abstractions.ConnectParameters(forceBleTransport: true);
+               await _adapter.ConnectToDeviceAsync(DeviceCurrent, parameters, cancellationToken.Token);
 
 
-                var services = await _device.GetServicesAsync();
-                var Service = await _device.GetServiceAsync(DeviceSelec.Id);
+
+               var services = await _device.GetServicesAsync();
+               var Service = await _device.GetServiceAsync(DeviceCurrent.Id);
 
 
-                List<ICharacteristic> Characteristics = new List<ICharacteristic>();
+               List<ICharacteristic> Characteristics = new List<ICharacteristic>();
 
-                foreach (var item in services)
-                {
-                    var cara = await item.GetCharacteristicsAsync();
+               foreach (var item in services)
+               {
+                   var cara = await item.GetCharacteristicsAsync();
 
-                    Characteristics.AddRange(cara);
+                   Characteristics.AddRange(cara);
 
                     //if (_uuid.ToString() == "e7810a71-73ae-499d-8c15-faa9aef0c3f2")
                     //{
 
                     string str = item.Id.ToString();
-                }
+               }
 
 
-                this._characteristic = Characteristics.Where(x => x.Uuid == "bef8d6c9-9c21-4c9e-b632-bd58c1009f9f").FirstOrDefault();
+               this._characteristic = Characteristics.Where(x => x.Uuid == "bef8d6c9-9c21-4c9e-b632-bd58c1009f9f").FirstOrDefault();
 
-                if (_characteristic.CanWrite)
-                {
-                    byte[] bytes = Encoding.UTF8.GetBytes("Hola Mundo despues de un siglo ya se puede imprimir" + System.Environment.NewLine);
-                    var cancellationToken2 = new System.Threading.CancellationToken();
+               if (_characteristic.CanWrite)
+               {
+                   byte[] bytes = Encoding.UTF8.GetBytes("Hola Mundo despues de un siglo ya se puede imprimir" + System.Environment.NewLine);
+                   var cancellationToken2 = new System.Threading.CancellationToken();
 
                     //_characteristic.WriteType = Plugin.BLE.Abstractions.CharacteristicWriteType.WithoutResponse;
 
@@ -240,33 +266,33 @@ namespace AppExample.ViewModels
 
                     await _characteristic.WriteAsync(bytes);
 
-                    _characteristic.ValueUpdated += (s, e) =>
-                    {
-                        Debug.WriteLine("New value: {0}", e.Characteristic.Value);
-                    };
-                    await _characteristic.StartUpdatesAsync();
+                   _characteristic.ValueUpdated += (s, e) =>
+                   {
+                       Debug.WriteLine("New value: {0}", e.Characteristic.Value);
+                   };
+                   await _characteristic.StartUpdatesAsync();
 
 
 
-                }
+               }
 
 
                 //var characteristic = await service.GetCharacteristicAsync(Guid.Parse("d8de624e-140f-4a22-8594-e2216b84a5f2"));
 
                 //await _adapter.ConnectToDeviceAsync(device);
 
-                await page.DisplayAlert("Conectado", $"Status {DeviceSelec.State}", "Ok");
+                await page.DisplayAlert("Conectado", $"Status {DeviceCurrent.State}", "Ok");
 
                 //var service = await device.GetServiceAsync(Guid.Parse("ffe0ecd2-3d16-4f8d-90de-e89e7fc396a5"));
 
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-            }
+           catch (Exception ex)
+           {
+               Debug.WriteLine(ex);
+           }
 
 
-        }));
+       }));
 
         private ICommand _desconnectCommand;
         public ICommand DesconnectCommand => _desconnectCommand ?? (_desconnectCommand = new Command(async (item) =>
@@ -298,21 +324,8 @@ namespace AppExample.ViewModels
         private ICommand _imprimirCommand;
         public ICommand ImprimirCommand => _imprimirCommand ?? (_imprimirCommand = new Command(async () =>
         {
-            if (DeviceSelec != null)
-            {
-                if (DeviceSelec.State == Plugin.BLE.Abstractions.DeviceState.Connected)
-                {
-                    if (this._characteristic != null)
-                    {
-                        if (this._characteristic.CanWrite)
-                        {
-                            byte[] bytes = Encoding.UTF8.GetBytes("Hola Mundo ");
-                            await this._characteristic.WriteAsync(bytes);
-                        }
-                    }
-                }
-            }
 
+            //var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
 
             try
             {
@@ -321,19 +334,36 @@ namespace AppExample.ViewModels
                 //var device = await _adapter.ConnectToKnownDeviceAsync(Guid.Parse("00000000-0000-0000-0000-dc0d30098222"), new Plugin.BLE.Abstractions.ConnectParameters(autoConnect: true, forceBleTransport: false), tokenSource.Token);
 
 
-                if(DeviceSelec==null)
+       
+
+
+                if (DeviceCurrent == null)
                 {
                     var cancellationToken = new System.Threading.CancellationTokenSource();
                     var parameters = new Plugin.BLE.Abstractions.ConnectParameters(forceBleTransport: true);
-                    DeviceSelec = await _adapter.ConnectToKnownDeviceAsync(Guid.Parse("00000000-0000-0000-0000-dc0d30098222"), parameters, cancellationToken.Token);
+                    DeviceCurrent = await _adapter.ConnectToKnownDeviceAsync(Guid.Parse("00000000-0000-0000-0000-dc0d30098222"), parameters, cancellationToken.Token);
+                    ServiceCurrent = await DeviceCurrent.GetServiceAsync(Guid.Parse("e7810a71-73ae-499d-8c15-faa9aef0c3f2"));
+                    CharacteristicCurrent = await ServiceCurrent.GetCharacteristicAsync(Guid.Parse("bef8d6c9-9c21-4c9e-b632-bd58c1009f9f"));
+                }
+                else if (DeviceCurrent.State == Plugin.BLE.Abstractions.DeviceState.Disconnected)
+                {
+                    var cancellationToken = new System.Threading.CancellationTokenSource();
+                    var parameters = new Plugin.BLE.Abstractions.ConnectParameters(forceBleTransport: true);
+                    DeviceCurrent = await _adapter.ConnectToKnownDeviceAsync(Guid.Parse("00000000-0000-0000-0000-dc0d30098222"), parameters, cancellationToken.Token);
+                    ServiceCurrent = await DeviceCurrent.GetServiceAsync(Guid.Parse("e7810a71-73ae-499d-8c15-faa9aef0c3f2"));
+                    CharacteristicCurrent = await ServiceCurrent.GetCharacteristicAsync(Guid.Parse("bef8d6c9-9c21-4c9e-b632-bd58c1009f9f"));
+                }
+                else if (ServiceCurrent == null)
+                {
+                    ServiceCurrent = await DeviceCurrent.GetServiceAsync(Guid.Parse("e7810a71-73ae-499d-8c15-faa9aef0c3f2"));
+                    CharacteristicCurrent = await ServiceCurrent.GetCharacteristicAsync(Guid.Parse("bef8d6c9-9c21-4c9e-b632-bd58c1009f9f"));
                 }
 
-                var service = await DeviceSelec.GetServiceAsync(Guid.Parse("e7810a71-73ae-499d-8c15-faa9aef0c3f2"));
-                var characteristic = await service.GetCharacteristicAsync(Guid.Parse("bef8d6c9-9c21-4c9e-b632-bd58c1009f9f"));
+
                 byte[] bytes = Encoding.UTF8.GetBytes("Hola Mundo despues de un siglo ya se puede imprimir" + System.Environment.NewLine);
 
-                await characteristic.WriteAsync(bytes);       
-                await characteristic.StartUpdatesAsync();
+                await CharacteristicCurrent.WriteAsync(bytes);
+                //await CharacteristicCurrent.StartUpdatesAsync();
 
 
                 //MemberwiseClone
@@ -374,3 +404,36 @@ namespace AppExample.ViewModels
 #region Commands
 
 #endregion
+
+
+
+//private async void ScanButton_Clicked(object sender, EventArgs e)
+//{
+//    ScanButton.IsEnabled = false;
+//    var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+
+//    if (status != PermissionStatus.Granted)
+//    {
+//        if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Location))
+//        {
+//            await DisplayAlert("Need location", "App needs location permission", "OK");
+//        }
+
+//        var status1 = await CrossPermissions.Current.RequestPermissionsAsync(new[] { Permission.Location });
+
+//        var loca = status1.FirstOrDefault(x => x.Key == Permission.Location);
+//        if (loca.Value != null)
+//            if (loca.Value == PermissionStatus.Granted) status = PermissionStatus.Granted;
+//    }
+
+//    if (status != PermissionStatus.Granted)
+//    {
+//        await DisplayAlert("Need location", "App need location permission", "OK");
+//        return;
+//    }
+
+//    _gattDevices.Clear();
+//    await _adapter.StartScanningForDevicesAsync();
+//    listView.ItemsSource = _gattDevices.ToArray();
+//    ScanButton.IsEnabled = true;
+//}
