@@ -9,7 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppExample.Android", "AppEx
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppExample.iOS", "AppExample\AppExample.iOS\AppExample.iOS.csproj", "{B60981F2-2344-4FA4-9A28-1CE88445173E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppExample", "AppExample\AppExample\AppExample.csproj", "{88E7C3FD-8C15-4964-AC28-E6D3C38DA9D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppExample", "AppExample\AppExample\AppExample.csproj", "{88E7C3FD-8C15-4964-AC28-E6D3C38DA9D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Common", "Example.Common\Example.Common.csproj", "{C3DF3112-60F8-404E-8785-27DA1459B9B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -127,6 +129,30 @@ Global
 		{88E7C3FD-8C15-4964-AC28-E6D3C38DA9D7}.Release|x64.Build.0 = Release|Any CPU
 		{88E7C3FD-8C15-4964-AC28-E6D3C38DA9D7}.Release|x86.ActiveCfg = Release|Any CPU
 		{88E7C3FD-8C15-4964-AC28-E6D3C38DA9D7}.Release|x86.Build.0 = Release|Any CPU
+		{C3DF3112-60F8-404E-8785-27DA1459B9B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3DF3112-60F8-404E-8785-27DA1459B9B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3DF3112-60F8-404E-8785-27DA1459B9B5}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{C3DF3112-60F8-404E-8785-27DA1459B9B5}.Debug|ARM.Build.0 = Debug|Any CPU
+		{C3DF3112-60F8-404E-8785-27DA1459B9B5}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{C3DF3112-60F8-404E-8785-27DA1459B9B5}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{C3DF3112-60F8-404E-8785-27DA1459B9B5}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{C3DF3112-60F8-404E-8785-27DA1459B9B5}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{C3DF3112-60F8-404E-8785-27DA1459B9B5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C3DF3112-60F8-404E-8785-27DA1459B9B5}.Debug|x64.Build.0 = Debug|Any CPU
+		{C3DF3112-60F8-404E-8785-27DA1459B9B5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C3DF3112-60F8-404E-8785-27DA1459B9B5}.Debug|x86.Build.0 = Debug|Any CPU
+		{C3DF3112-60F8-404E-8785-27DA1459B9B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3DF3112-60F8-404E-8785-27DA1459B9B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3DF3112-60F8-404E-8785-27DA1459B9B5}.Release|ARM.ActiveCfg = Release|Any CPU
+		{C3DF3112-60F8-404E-8785-27DA1459B9B5}.Release|ARM.Build.0 = Release|Any CPU
+		{C3DF3112-60F8-404E-8785-27DA1459B9B5}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{C3DF3112-60F8-404E-8785-27DA1459B9B5}.Release|iPhone.Build.0 = Release|Any CPU
+		{C3DF3112-60F8-404E-8785-27DA1459B9B5}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{C3DF3112-60F8-404E-8785-27DA1459B9B5}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{C3DF3112-60F8-404E-8785-27DA1459B9B5}.Release|x64.ActiveCfg = Release|Any CPU
+		{C3DF3112-60F8-404E-8785-27DA1459B9B5}.Release|x64.Build.0 = Release|Any CPU
+		{C3DF3112-60F8-404E-8785-27DA1459B9B5}.Release|x86.ActiveCfg = Release|Any CPU
+		{C3DF3112-60F8-404E-8785-27DA1459B9B5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

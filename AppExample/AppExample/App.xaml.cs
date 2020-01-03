@@ -7,6 +7,8 @@ namespace AppExample
 {
     public partial class App : Application
     {
+        public static string Directorio { get; set; }
+
         public App()
         {
             InitializeComponent();

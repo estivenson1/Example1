@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -174,6 +175,9 @@ namespace AppExample.ViewModels
 
             }
         }
+                                    
+
+
         #endregion
 
 
@@ -360,7 +364,42 @@ namespace AppExample.ViewModels
                 }
 
 
+
+                ////convertimos  BARCODELib.Barcode a un objeto
+                //BARCODELib.Barcode ab = new BARCODELib.Barcode()
+
+                ////agregamos el texto
+                //ab.Text = "HOLA MUNDO";
+                ////agregamos el typo de code del codigo de barra
+                //ab.TypeName = "Code 128";
+                ////creamos la imagen puede ser jpg,png,bmp
+                //ab.SaveAsBySize("HOLA.bmp", 400, 150);
+
+
+
                 byte[] bytes = Encoding.UTF8.GetBytes("Hola Mundo despues de un siglo ya se puede imprimir" + System.Environment.NewLine);
+               var base64String = Convert.ToBase64String(bytes);
+
+
+                string path = Path.Combine(App.Directorio, "Facturas");
+                string fileName = Path.Combine(path, "prueba.png");
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);                  
+                }
+
+
+        
+
+                Xamarin.Forms.Image myimage = new Image
+                {
+                    Source = Xamarin.Forms.ImageSource.FromStream(() => new MemoryStream())
+                };
+
+                Xamarin.Forms.ImageSource MyImageSource = myimage.Source;
+
+                //File.WriteAllBytes(fileName, );
+
 
                 await CharacteristicCurrent.WriteAsync(bytes);
                 //await CharacteristicCurrent.StartUpdatesAsync();
