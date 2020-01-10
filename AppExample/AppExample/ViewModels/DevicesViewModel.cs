@@ -1,4 +1,7 @@
-﻿using AppExample.Models;
+﻿using Android;
+using Android.Content.Res;
+using Android.Graphics;
+using AppExample.Models;
 using Plugin.BLE;
 using Plugin.BLE.Abstractions.Contracts;
 using System;
@@ -337,8 +340,9 @@ namespace AppExample.ViewModels
                 //await _adapter.ConnectToKnownDeviceAsync(Guid.Parse("00000000-0000-0000-0000-dc0d30098222"));
                 //var device = await _adapter.ConnectToKnownDeviceAsync(Guid.Parse("00000000-0000-0000-0000-dc0d30098222"), new Plugin.BLE.Abstractions.ConnectParameters(autoConnect: true, forceBleTransport: false), tokenSource.Token);
 
+                //GestionImagen();
+                //return;
 
-       
 
 
                 if (DeviceCurrent == null)
@@ -377,19 +381,29 @@ namespace AppExample.ViewModels
 
 
 
-                byte[] bytes = Encoding.UTF8.GetBytes("Hola Mundo despues de un siglo ya se puede imprimir" + System.Environment.NewLine);
+                byte[] bytes = Encoding.UTF8.GetBytes("Ó Hola Mundo despues de un siglo ya se puede imprimir Ñ" + System.Environment.NewLine);
                var base64String = Convert.ToBase64String(bytes);
 
+                var utf8 = new UTF8Encoding();
+                byte[] bytes2 = utf8.GetBytes("šarže" + System.Environment.NewLine);
 
-                string path = Path.Combine(App.Directorio, "Facturas");
-                string fileName = Path.Combine(path, "prueba.png");
+                byte[] imageArray = System.IO.File.ReadAllBytes(System.IO.Path.Combine(App.Directorio, "Tiquete.png"));
+                //byte[] bytes3 = Convert.FromBase64String(imageArray.to);
+
+
+
+                string path = System.IO.Path.Combine(App.Directorio, "Facturas");
+                string fileName = System.IO.Path.Combine(path, "prueba.pdf");
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);                  
                 }
 
 
-        
+                string fileName2 = System.IO.Path.Combine(App.Directorio, "Tiquete.png");
+                var imagebytes = File.ReadAllBytes(fileName2);
+
+
 
                 Xamarin.Forms.Image myimage = new Image
                 {
@@ -400,10 +414,32 @@ namespace AppExample.ViewModels
 
                 //File.WriteAllBytes(fileName, );
 
+                Image image = new Image { Source = "" };
 
+                var knk = image.Resources;
+
+                //var embeddedImage = new Image { Source = ImageSource.FromResource("WorkingWithImages.beach.jpg", typeof(EmbeddedImages).GetTypeInfo().Assembly) };
+
+
+                //Bitmap drawable = new Bitmap {so };
+
+                //Bitmap bitmap = BitmapFactory.DecodeResourceAsync()
+
+
+
+
+
+
+                var zx = App.Bytes.ToString();
+                var zxs=App.Bytes.Length;
+
+                //await CharacteristicCurrent.StartUpdatesAsync();
                 await CharacteristicCurrent.WriteAsync(bytes);
+                //await CharacteristicCurrent.WriteAsync(App.Bytes);
+                //await CharacteristicCurrent.WriteAsync(bytes);
                 //await CharacteristicCurrent.StartUpdatesAsync();
 
+                string sdfkjbde = "";
 
                 //MemberwiseClone
             }
@@ -416,8 +452,46 @@ namespace AppExample.ViewModels
 
 
         }));
-        #endregion
+
+
+
+        private void GestionImagen()
+        {
+            //Image image = 
+
+            //var knk = Xamarin.Forms.ResourceDictionary;
+        }
+
+
+        private void printTwoColumn(String title, String content) 
+        {
+        int iNum = 0;
+        byte[] byteBuffer = new byte[100];
+        byte[] tmp;
+
+        tmp = getGbk(title);
+        System.arraycopy(tmp, 0, byteBuffer, iNum, tmp.length);
+        iNum += tmp.length;
+
+        tmp = setLocation(getOffset(content));
+        System.arraycopy(tmp, 0, byteBuffer, iNum, tmp.length);
+        iNum += tmp.length;
+
+        tmp = getGbk(content);
+        System.arraycopy(tmp, 0, byteBuffer, iNum, tmp.length);
+
+        mPrinter.sendByteData(byteBuffer);
     }
+
+        private byte[] getGbk(String stText) 
+        {
+        byte[] returnText = stText.getBytes("GBK"); // 必须放在try内才可以
+        return returnText;
+    }
+
+
+    #endregion
+}
 }
 
 #region Attributes

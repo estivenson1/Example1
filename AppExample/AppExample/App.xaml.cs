@@ -8,12 +8,13 @@ namespace AppExample
     public partial class App : Application
     {
         public static string Directorio { get; set; }
+        public static byte[] Bytes { get; set; }
 
         public App()
         {
             InitializeComponent();
 
-            //MainPage = new MainPage();
+            //MainPage = new VerImagePage();
             MainPage = new DevicesPage();
         }
 
